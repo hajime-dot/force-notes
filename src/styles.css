@@ -1,0 +1,574 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --color-canvas: #12151c;
+  --color-surface: #1c2230;
+  --color-surface-2: #262d3e;
+  --color-fg: #f3efe6;
+  --color-muted: #a7b0c4;
+  --color-line: #353d52;
+  --color-primary: #e4a312;
+  --color-primary-fg: #1a1406;
+  --color-accent: #e15d45;
+
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-primary-fg);
+  }
+
+  input[type="range"] {
+    accent-color: var(--color-primary);
+    height: 2.75rem;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* iPad landscape and similar short wide screens: one screen, no page scroll. */
+@media (min-width: 1024px) and (max-height: 1100px) {
+  input[type="range"] {
+    height: 1.75rem;
+  }
+
+  .app-shell {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .app-header .header-row {
+    align-items: center;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .app-main {
+    flex: 1;
+    min-height: 0;
+    max-width: none;
+    gap: 0.35rem;
+    overflow: hidden;
+    padding: 0.35rem 0.75rem 0.5rem;
+  }
+
+  .app-intro {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .app-title {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .app-lede {
+    margin-top: 0;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .app-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  [data-layout] {
+    flex: 1;
+    min-height: 0;
+  }
+
+  [data-layout] h2.font-display {
+    font-size: 1.05rem;
+  }
+
+  [data-layout] section.rounded-xl:not(.terminal-scene):not(.friction-bench) {
+    padding: 0.5rem 0.65rem;
+  }
+
+  /* Friction: bench beside the graph, controls in one band, coefficients along the bottom. */
+  [data-layout="friction"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  .friction-bench {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  .friction-bench .stage-well {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    margin-top: 0.25rem;
+  }
+
+  .friction-controls {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr) minmax(0, 1.4fr);
+    grid-template-areas:
+      "title title title"
+      "readouts force actions"
+      "minis force actions";
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
+    overflow: visible;
+  }
+
+  .friction-controls h2 {
+    grid-area: title;
+    margin: 0;
+  }
+
+  .friction-story,
+  .friction-equal {
+    display: none;
+  }
+
+  .friction-readouts {
+    grid-area: readouts;
+    margin: 0;
+  }
+
+  .friction-minis {
+    grid-area: minis;
+    margin: 0;
+  }
+
+  .friction-force {
+    grid-area: force;
+    margin: 0;
+  }
+
+  .friction-actions {
+    grid-area: actions;
+    margin: 0;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .friction-actions button {
+    min-height: 2.5rem;
+    padding-inline: 0.35rem;
+  }
+
+  .friction-controls .readout .font-display,
+  .lift-readouts .readout .font-display {
+    font-size: 1.35rem;
+  }
+
+  .friction-chart-card {
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .friction-chart-card .fill-chart,
+  .lift-graph .fill-chart,
+  .terminal-charts .chart-well {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    margin-top: 0.25rem;
+  }
+
+  .friction-coeffs {
+    grid-column: 1 / -1;
+  }
+
+  .friction-coeffs .coeff-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
+    margin-top: 0.35rem;
+  }
+
+  .friction-chart-card > p:first-of-type {
+    display: -webkit-box;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.35;
+  }
+
+  .friction-dot {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.35;
+  }
+
+  /* Diver: scene full height on the left, stage above the graphs, model strip below. */
+  [data-layout="terminal"] {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    grid-template-rows: minmax(0, 1.12fr) minmax(0, 0.78fr) auto;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  .terminal-top {
+    display: contents;
+  }
+
+  .terminal-scene {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    height: auto;
+    min-height: 0;
+  }
+
+  .terminal-scene .diver-art {
+    width: 100%;
+    height: 100%;
+  }
+
+  .terminal-stage {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 0;
+    gap: 0.35rem;
+    overflow: hidden;
+  }
+
+  .terminal-stage > div:first-child > p.uppercase {
+    display: none;
+  }
+
+  .terminal-stage > div:first-child > div {
+    margin-top: 0.25rem;
+  }
+
+  .terminal-stage .stage-body {
+    display: -webkit-box;
+    margin-top: 0.15rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-height: 1.3;
+  }
+
+  .terminal-stage .stage-speed {
+    font-size: 1.6rem;
+  }
+
+  .terminal-stage .stage-jumps {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .terminal-stage .stage-jumps button {
+    min-height: 2.15rem;
+    flex: 1 1 auto;
+    padding-inline: 0.35rem;
+  }
+
+  .terminal-stage .stage-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .terminal-stage .stage-stats dd + dd {
+    display: none;
+  }
+
+  .terminal-stage .stage-actions {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 1.35fr);
+  }
+
+  .terminal-stage .stage-actions > button {
+    grid-column: auto / span 1;
+    min-height: 2.35rem;
+  }
+
+  .terminal-tools {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-tools > label {
+    flex: 1;
+    min-width: 0;
+    min-height: 2.25rem;
+  }
+
+  .terminal-tools > div {
+    flex: 0 0 9.5rem;
+  }
+
+  .terminal-tools p {
+    display: none;
+  }
+
+  .terminal-tools button {
+    min-height: 2.15rem;
+  }
+
+  .terminal-charts {
+    display: grid;
+    grid-column: 2;
+    grid-row: 2;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0.5rem;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .terminal-charts > section {
+    display: flex;
+    grid-column: auto / span 1;
+    min-height: 0;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .terminal-charts p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-height: 1.3;
+  }
+
+  .terminal-note {
+    display: none;
+  }
+
+  .terminal-model {
+    display: contents;
+  }
+
+  .terminal-essay {
+    display: none;
+  }
+
+  .terminal-sliders {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: 1.3fr auto 1fr 1fr;
+    gap: 0.35rem 0.75rem;
+    align-items: end;
+    margin-top: 0;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+    padding: 0.35rem 0.65rem 0.25rem;
+  }
+
+  .terminal-sliders .hint {
+    display: none;
+  }
+
+  /* Lift: large person on the left, cases above a smaller graph, sliders along the bottom. */
+  [data-layout="lift"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-rows: minmax(0, 1.2fr) minmax(0, 0.62fr) auto;
+    gap: 0.5rem;
+    overflow: hidden;
+    align-items: stretch;
+  }
+
+  .lift-scene {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0.65rem;
+  }
+
+  .lift-scene > p,
+  .lift-scene h2 {
+    display: none;
+  }
+
+  .lift-scene > div:first-child p {
+    font-size: 0.95rem;
+  }
+
+  .lift-svg {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin-top: 0.15rem;
+  }
+
+  .lift-side {
+    display: flex;
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 0;
+    flex-direction: column;
+    gap: 0.35rem;
+    overflow: hidden;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .lift-side h2 {
+    font-size: 1.05rem;
+  }
+
+  .lift-families .family-card {
+    min-height: 2.2rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .lift-readouts .readout .font-display {
+    font-size: 1.15rem;
+  }
+
+  .lift-readouts .readout p:last-child,
+  .lift-formula {
+    display: none;
+  }
+
+  .lift-story {
+    display: -webkit-box;
+    margin-top: 0.25rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.3;
+  }
+
+  .lift-graph {
+    display: flex;
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0.45rem 0.65rem 0.35rem;
+  }
+
+  .lift-graph .fill-chart {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+    margin-top: 0.2rem;
+  }
+
+  .lift-graph > ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.75rem;
+    margin-top: 0.15rem;
+  }
+
+  .lift-hand {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    grid-template-columns: 1.2fr 1.2fr auto;
+    gap: 0.35rem 0.75rem;
+    align-items: end;
+    margin-top: 0;
+    border: 1px solid var(--color-line);
+    border-radius: 0.75rem;
+    background: var(--color-surface);
+    padding: 0.35rem 0.65rem 0.25rem;
+  }
+
+  .lift-hand .hint {
+    display: none;
+  }
+
+  .lift-segments {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.25rem;
+    margin-top: 0.3rem;
+  }
+
+  .lift-segments .seg-detail {
+    display: none;
+  }
+
+  .lift-segments .seg-row {
+    width: 100%;
+    min-height: 1.75rem;
+    flex-direction: row;
+    padding: 0.1rem 0.4rem;
+  }
+
+  .lift-segments .seg-row span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Tall desktop: friction controls and graph stay side by side. */
+@media (min-width: 1024px) and (min-height: 1101px) {
+  [data-layout="friction"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .friction-bench,
+  .friction-coeffs {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Force Notes">
+  <rect width="32" height="32" rx="7" fill="#12151C"/>
+  <path fill="#E4A312" d="M5 14.1h13.4L15 10.6l2.2-2.2L25.8 16 17.2 23.6 15 21.4l3.4-3.5H5z"/>
+  <rect x="5" y="24.2" width="10.5" height="2.4" rx="1.2" fill="#E15D45"/>
+</svg>
